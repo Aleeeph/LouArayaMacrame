@@ -6,12 +6,9 @@ App móvil Android (Kotlin + Jetpack Compose + Material 3) para el caso **Lou Ar
 
 ## Integrantes
 
-| Nombre | Rol principal |
-|---|---|
-| _completar_ | _completar_ |
-| _completar_ | _completar_ |
-
-**Equipo N°:** _completar_ · **Sección:** DSY1105 · **Tablero Trello:** _pegar enlace aquí_
+| Nombre | Alejandro Velasquez|
+|
+ **Sección:** DSY1105 · 
 
 ## Perfiles de usuario
 
