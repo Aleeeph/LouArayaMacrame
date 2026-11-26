@@ -46,19 +46,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cl.louaraya.macrame.ui.components.AppearAnimated
 import cl.louaraya.macrame.ui.components.NoInsets
 import cl.louaraya.macrame.ui.components.rememberNotificationPermissionRequest
-import cl.louaraya.macrame.util.Intents
 import cl.louaraya.macrame.viewmodel.ProfileViewModel
 import cl.louaraya.macrame.viewmodel.appViewModel
 
 @Composable
 fun ProfileScreen(
+    onOpenMap: () -> Unit,
     onLoggedOut: () -> Unit,
     vm: ProfileViewModel = appViewModel { ProfileViewModel(it.prefs, it.authRepo) }
 ) {
@@ -66,7 +65,6 @@ fun ProfileScreen(
     val darkPref by vm.darkMode.collectAsStateWithLifecycle()
     val notificationsOn by vm.notifications.collectAsStateWithLifecycle()
     val isDark = darkPref ?: isSystemInDarkTheme()
-    val context = LocalContext.current
     var showLogoutDialog by rememberSaveable { mutableStateOf(false) }
     val requestNotifications = rememberNotificationPermissionRequest { granted ->
         vm.setNotifications(granted)
@@ -124,7 +122,7 @@ fun ProfileScreen(
             }
 
             OutlinedButton(
-                onClick = { Intents.openNearbyFairs(context) },
+                onClick = onOpenMap,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Icon(Icons.Rounded.Storefront, contentDescription = null)

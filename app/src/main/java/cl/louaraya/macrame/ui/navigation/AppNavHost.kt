@@ -35,10 +35,12 @@ import androidx.navigation.navArgument
 import cl.louaraya.macrame.ui.screens.CampaignsScreen
 import cl.louaraya.macrame.ui.screens.CatalogScreen
 import cl.louaraya.macrame.ui.screens.LoginScreen
+import cl.louaraya.macrame.ui.screens.MapScreen
 import cl.louaraya.macrame.ui.screens.OrdersScreen
 import cl.louaraya.macrame.ui.screens.ProductDetailScreen
 import cl.louaraya.macrame.ui.screens.ProductFormScreen
 import cl.louaraya.macrame.ui.screens.ProfileScreen
+import cl.louaraya.macrame.ui.screens.QrScannerScreen
 import cl.louaraya.macrame.ui.screens.RegisterScreen
 import cl.louaraya.macrame.ui.screens.SplashScreen
 import cl.louaraya.macrame.viewmodel.SessionState
@@ -52,6 +54,8 @@ object Routes {
     const val CAMPAIGNS = "campaigns"
     const val ORDERS = "orders"
     const val PROFILE = "profile"
+    const val QR_SCANNER = "qr_scanner"
+    const val MAP = "map"
     const val PRODUCT_FORM = "product_form?productId={productId}"
     const val PRODUCT_DETAIL = "product_detail/{productId}"
 
@@ -142,18 +146,35 @@ fun AppNavHost(sessionVm: SessionViewModel) {
             composable(Routes.CATALOG) {
                 CatalogScreen(
                     onAddProduct = { navController.navigate(Routes.productForm()) },
-                    onOpenProduct = { navController.navigate(Routes.productDetail(it)) }
+                    onOpenProduct = { navController.navigate(Routes.productDetail(it)) },
+                    onOpenScanner = { navController.navigate(Routes.QR_SCANNER) }
+                )
+            }
+            composable(Routes.QR_SCANNER) {
+                QrScannerScreen(
+                    onBack = { navController.popBackStack() },
+                    onProductFound = { id ->
+                        navController.navigate(Routes.productDetail(id)) {
+                            popUpTo(Routes.QR_SCANNER) { inclusive = true }
+                        }
+                    }
                 )
             }
             composable(Routes.CAMPAIGNS) { CampaignsScreen() }
             composable(Routes.ORDERS) { OrdersScreen() }
             composable(Routes.PROFILE) {
                 ProfileScreen(
+                    onOpenMap = { navController.navigate(Routes.MAP) },
                     onLoggedOut = {
                         navController.navigate(Routes.LOGIN) {
                             popUpTo(navController.graph.id) { inclusive = true }
                         }
                     }
+                )
+            }
+            composable(Routes.MAP) {
+                MapScreen(
+                    onBack = { navController.popBackStack() }
                 )
             }
             composable(

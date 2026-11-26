@@ -18,10 +18,11 @@ object Intents {
         context.startActivity(Intent.createChooser(send, "Compartir pieza"))
     }
 
-    /** Abre una app de mapas buscando ferias artesanales (con respaldo en el navegador). */
+    /** Abre una app de mapas; si no existe, intenta OpenStreetMap y luego Google Maps en navegador. */
     fun openNearbyFairs(context: Context) {
         val attempts = listOf(
             Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=feria+artesanal")),
+            Intent(Intent.ACTION_VIEW, Uri.parse("https://www.openstreetmap.org/search?query=feria%20artesanal%20cerca")),
             Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/search/feria+artesanal+cerca"))
         )
         for (intent in attempts) {

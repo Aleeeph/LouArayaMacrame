@@ -77,6 +77,9 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
+    // Escaneo QR mediante Google Code Scanner.
+    implementation("com.google.android.gms:play-services-code-scanner:16.1.0")
+
     // Alertas de campaña en segundo plano
     implementation("androidx.work:work-runtime-ktx:2.9.1")
 

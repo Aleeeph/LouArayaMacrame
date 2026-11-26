@@ -20,6 +20,7 @@ import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.CloudOff
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.QrCodeScanner
 import androidx.compose.material.icons.rounded.Storefront
 import androidx.compose.material.icons.rounded.Sync
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -57,6 +58,7 @@ import cl.louaraya.macrame.viewmodel.appViewModel
 fun CatalogScreen(
     onAddProduct: () -> Unit,
     onOpenProduct: (Long) -> Unit,
+    onOpenScanner: () -> Unit,
     vm: CatalogViewModel = appViewModel { CatalogViewModel(it.prefs, it.catalogRepo) }
 ) {
     val items by vm.items.collectAsStateWithLifecycle()
@@ -73,6 +75,9 @@ fun CatalogScreen(
             CenterAlignedTopAppBar(
                 title = { Text("Catálogo", fontWeight = FontWeight.Bold) },
                 actions = {
+                    IconButton(onClick = onOpenScanner) {
+                        Icon(Icons.Rounded.QrCodeScanner, contentDescription = "Escanear código QR")
+                    }
                     IconButton(onClick = vm::refresh, enabled = sync != SyncState.SYNCING) {
                         if (sync == SyncState.SYNCING) {
                             CircularProgressIndicator(Modifier.size(22.dp), strokeWidth = 2.dp)

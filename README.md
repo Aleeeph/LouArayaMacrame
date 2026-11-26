@@ -38,7 +38,8 @@ La primera vez que se abre la app se carga una matriz de prueba (9 piezas y 3 ca
 | Animaciones | Splash (spring + fade), entrada de tarjetas, corazón de favoritos, mensajes de error, barra inferior, overlay de éxito, cambio de color de campañas |
 | MVVM + estructura modular + persistencia local (IL2.3) | Ver arquitectura; **Room** (usuarios, piezas, favoritos, pedidos, campañas) y **DataStore** (sesión y preferencias) |
 | API REST con Retrofit | `data/remote/MacrameApi.kt` (endpoints), `Dtos.kt`, sincronización en `CatalogRepository` y `OrderRepository` |
-| Recursos nativos (≥ 2) (IL2.4) | **Cámara** (foto de la pieza, permiso en tiempo de ejecución) y **Notificaciones** (WorkManager + permiso Android 13+). Extras: compartir pieza y abrir mapas (ferias cercanas) |
+| Recursos nativos (IL2.4) | **Cámara** para fotografiar piezas, **notificaciones** con WorkManager, compartir piezas y apertura de mapas externos para ferias artesanales. |
+| Escáner QR | `ui/screens/QrScannerScreen.kt` + Google Code Scanner; lee códigos `MAC-001` y abre la ficha local de la pieza. |
 | GitHub + Trello | Ver `docs/GUIA_EQUIPO.md` |
 
 ```
@@ -78,6 +79,16 @@ Room es la fuente de verdad, así que la app **funciona sin conexión**. Al abri
 - Regístrate como **Dueña / Administradora** para crear piezas (cámara), cambiar estados y programar campañas; luego cierra sesión y regístrate como **Cliente** para guardar piezas y solicitar reservas.
 - *Cámara:* en el emulador usa **Extended controls ▸ Camera** o un dispositivo físico.
 - *Notificaciones:* acepta el permiso; al enviar una solicitud aparece un aviso inmediato. Las campañas se disparan en su fecha y hora (WorkManager puede retrasarlas unos minutos).
+
+## Evaluación Parcial 4: cambios incorporados
+
+- Se agregó una pantalla de escaneo QR accesible desde el Catálogo.
+- Se utiliza Google Code Scanner para leer códigos sin implementar una cámara propia para el escáner.
+- Los códigos `MAC-001`, `MAC-002`, etc. se interpretan como identificadores locales y navegan a la ficha del producto.
+- Se agregaron pruebas unitarias para el reconocimiento y rechazo de códigos QR inválidos.
+- Se conserva la captura fotográfica de productos y la apertura de mapas desde Perfil.
+
+**Pendiente de configuración externa:** la URL Retrofit predeterminada sigue apuntando a `10.0.2.2:8080/api/`. Para demostrar integración real se debe levantar el backend Spring Boot compatible y configurar esa URL. Esta entrega no incorpora por sí sola un backend Spring Boot ni genera una firma APK; esos artefactos requieren configuración y ejecución en el entorno Android Studio del equipo.
 
 ## Notas de seguridad
 
